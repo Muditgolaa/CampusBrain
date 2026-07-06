@@ -29,14 +29,20 @@ export default function RegisterPage(): React.ReactElement {
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-  const onSubmit = handleSubmit(async (values) => {
-    await registerMutation.mutateAsync({
-      fullName: values.fullName,
-      email: values.email,
-      password: values.password,
-      branch: values.branch || undefined,
-    });
-    router.push('/chat');
+  const onSubmit = handleSubmit((values) => {
+    registerMutation.mutate(
+      {
+        fullName: values.fullName,
+        email: values.email,
+        password: values.password,
+        branch: values.branch || undefined,
+      },
+      {
+        onSuccess: () => {
+          router.push('/chat');
+        },
+      }
+    );
   });
 
   return (

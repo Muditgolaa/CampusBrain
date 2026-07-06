@@ -27,9 +27,12 @@ export default function LoginPage(): React.ReactElement {
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-  const onSubmit = handleSubmit(async (values) => {
-    await login.mutateAsync(values);
-    router.push('/chat');
+  const onSubmit = handleSubmit((values) => {
+    login.mutate(values, {
+      onSuccess: () => {
+        router.push('/chat');
+      },
+    });
   });
 
   return (
