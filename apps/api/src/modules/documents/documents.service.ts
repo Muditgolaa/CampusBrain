@@ -10,9 +10,15 @@ import type { Queue } from 'bullmq';
 import { randomUUID } from 'node:crypto';
 import { AppConfigService } from '@/config/config.module';
 import { paginate, type PaginatedResponse } from '@/common/dto/api-response';
-import { STORAGE_PROVIDER, type StorageProvider } from '../storage/storage.types';
+import {
+  STORAGE_PROVIDER,
+  type StorageProvider,
+} from '../storage/storage.types';
 import { DocumentsRepository } from './documents.repository';
-import { UploadDocumentDto, DocumentResponseDto } from './dto/upload-document.dto';
+import {
+  UploadDocumentDto,
+  DocumentResponseDto,
+} from './dto/upload-document.dto';
 import { ListDocumentsDto } from './dto/list-documents.dto';
 import { INGESTION_QUEUE, type IngestionJobData } from './ingestion.queue';
 
@@ -34,7 +40,8 @@ export class DocumentsService {
     private readonly documents: DocumentsRepository,
     private readonly config: AppConfigService,
     @Inject(STORAGE_PROVIDER) private readonly storage: StorageProvider,
-    @InjectQueue(INGESTION_QUEUE) private readonly queue: Queue<IngestionJobData>,
+    @InjectQueue(INGESTION_QUEUE)
+    private readonly queue: Queue<IngestionJobData>,
   ) {}
 
   async upload(

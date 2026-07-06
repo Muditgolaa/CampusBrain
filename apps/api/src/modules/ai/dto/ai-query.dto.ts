@@ -12,7 +12,10 @@ export class AiQueryDto {
   @MaxLength(8000)
   query!: string;
 
-  @ApiProperty({ required: false, description: 'Optional chat id for context.' })
+  @ApiProperty({
+    required: false,
+    description: 'Optional chat id for context.',
+  })
   @IsOptional()
   @IsString()
   chatId?: string;

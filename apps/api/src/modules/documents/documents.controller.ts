@@ -39,7 +39,9 @@ export class DocumentsController {
 
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
-  @ApiOperation({ summary: 'Upload a document; ingestion runs asynchronously.' })
+  @ApiOperation({
+    summary: 'Upload a document; ingestion runs asynchronously.',
+  })
   @ApiConsumes('multipart/form-data')
   // Memory storage: the buffer is handed to the storage provider, not written
   // to disk by Multer. The size cap is enforced again in the service.

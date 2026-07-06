@@ -29,7 +29,10 @@ export class ChatsService {
   constructor(private readonly chats: ChatsRepository) {}
 
   async create(userId: string, dto: CreateChatDto): Promise<ChatSummary> {
-    const chat = await this.chats.createChat(userId, dto.title?.trim() || 'New chat');
+    const chat = await this.chats.createChat(
+      userId,
+      dto.title?.trim() || 'New chat',
+    );
     return ChatsService.toSummary(chat);
   }
 
@@ -110,12 +113,10 @@ export class ChatsService {
     });
 
     // Oldest-first, excluding the just-added message.
-    const history: ChatTurn[] = priorTurns
-      .reverse()
-      .map((message) => ({
-        role: message.role === ChatRole.USER ? 'user' : 'assistant',
-        content: message.content,
-      }));
+    const history: ChatTurn[] = priorTurns.reverse().map((message) => ({
+      role: message.role === ChatRole.USER ? 'user' : 'assistant',
+      content: message.content,
+    }));
 
     return { history, isFirstMessage };
   }

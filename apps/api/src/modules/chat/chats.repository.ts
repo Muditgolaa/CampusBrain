@@ -88,10 +88,7 @@ export class ChatsRepository {
     });
   }
 
-  updateMessage(
-    id: string,
-    data: Prisma.MessageUpdateInput,
-  ): Promise<Message> {
+  updateMessage(id: string, data: Prisma.MessageUpdateInput): Promise<Message> {
     return this.prisma.message.update({ where: { id }, data });
   }
 

@@ -8,10 +8,7 @@ import { IngestionProcessor } from './ingestion.processor';
 import { INGESTION_QUEUE } from './ingestion.queue';
 
 @Module({
-  imports: [
-    AiModule,
-    BullModule.registerQueue({ name: INGESTION_QUEUE }),
-  ],
+  imports: [AiModule, BullModule.registerQueue({ name: INGESTION_QUEUE })],
   controllers: [DocumentsController],
   providers: [DocumentsService, DocumentsRepository, IngestionProcessor],
   exports: [DocumentsRepository],

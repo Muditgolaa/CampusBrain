@@ -33,9 +33,7 @@ export class AdminService {
   }
 
   // ── user management ──
-  async listUsers(
-    dto: ListUsersDto,
-  ): Promise<PaginatedResponse<AdminUserRow>> {
+  async listUsers(dto: ListUsersDto): Promise<PaginatedResponse<AdminUserRow>> {
     const { items, total } = await this.admin.listUsers({
       page: dto.page,
       pageSize: dto.pageSize,
@@ -56,7 +54,8 @@ export class AdminService {
     if (targetUserId === actor.userId) {
       throw new ForbiddenException('You cannot change your own role.');
     }
-    const grantsPrivilege = role === RoleName.ADMIN || role === RoleName.SUPER_ADMIN;
+    const grantsPrivilege =
+      role === RoleName.ADMIN || role === RoleName.SUPER_ADMIN;
     if (grantsPrivilege && actor.role !== RoleName.SUPER_ADMIN) {
       throw new ForbiddenException(
         'Only a super admin can grant admin privileges.',

@@ -3,7 +3,10 @@ import { Logger } from '@nestjs/common';
 import { DocumentStatus } from '@prisma/client';
 import type { Job } from 'bullmq';
 import { AiService } from '../ai/ai.service';
-import { STORAGE_PROVIDER, type StorageProvider } from '../storage/storage.types';
+import {
+  STORAGE_PROVIDER,
+  type StorageProvider,
+} from '../storage/storage.types';
 import { Inject } from '@nestjs/common';
 import { DocumentsRepository } from './documents.repository';
 import { INGESTION_QUEUE, type IngestionJobData } from './ingestion.queue';

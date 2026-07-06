@@ -47,7 +47,9 @@ export class AiService {
 
   /** Ingest a document: extract, chunk, embed, and index it. */
   async ingest(req: IngestRequest): Promise<IngestResult> {
-    const wire = await this.client.request<Parameters<typeof fromWireIngest>[0]>({
+    const wire = await this.client.request<
+      Parameters<typeof fromWireIngest>[0]
+    >({
       path: '/v1/ingest',
       method: 'POST',
       body: toWireIngest(req),
@@ -59,7 +61,9 @@ export class AiService {
 
   /** Non-streaming answer. */
   async query(req: RagQueryRequest): Promise<RagAnswer> {
-    const wire = await this.client.request<Parameters<typeof fromWireAnswer>[0]>({
+    const wire = await this.client.request<
+      Parameters<typeof fromWireAnswer>[0]
+    >({
       path: '/v1/rag/query/sync',
       method: 'POST',
       body: toWireRequest({ ...req, stream: false }),

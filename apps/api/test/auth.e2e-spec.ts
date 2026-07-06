@@ -21,7 +21,11 @@ describe('Auth (e2e)', () => {
     app = moduleRef.createNestApplication();
     app.setGlobalPrefix('api', { exclude: ['health', 'health/ready'] });
     app.useGlobalPipes(
-      new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
     );
     prisma = app.get(PrismaService);
     await app.init();
@@ -45,7 +49,13 @@ describe('Auth (e2e)', () => {
   it('registers a new user and returns a token pair', async () => {
     const res = await request(app.getHttpServer())
       .post('/api/auth/register')
-      .send({ email, password, fullName: 'Test User', branch: 'IT', semester: 6 })
+      .send({
+        email,
+        password,
+        fullName: 'Test User',
+        branch: 'IT',
+        semester: 6,
+      })
       .expect(201);
 
     expect(res.body.user.email).toBe(email);

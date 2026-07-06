@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Document,
-  DocumentStatus,
-  DocumentType,
-  Prisma,
-} from '@prisma/client';
+import { Document, DocumentStatus, DocumentType, Prisma } from '@prisma/client';
 import { PrismaService } from '@/common/prisma/prisma.service';
 import type { IngestChunk } from '../ai/ai.types';
 
@@ -43,7 +38,9 @@ export class DocumentsRepository {
     });
   }
 
-  async list(params: ListParams): Promise<{ items: Document[]; total: number }> {
+  async list(
+    params: ListParams,
+  ): Promise<{ items: Document[]; total: number }> {
     const where: Prisma.DocumentWhereInput = {
       ownerId: params.ownerId,
       deletedAt: null,

@@ -26,7 +26,10 @@ export class AuthService {
     private readonly tokens: TokenService,
   ) {}
 
-  async register(dto: RegisterDto, ctx: RequestContext): Promise<AuthResultDto> {
+  async register(
+    dto: RegisterDto,
+    ctx: RequestContext,
+  ): Promise<AuthResultDto> {
     const existing = await this.users.findByEmail(dto.email);
     if (existing) {
       throw new ConflictException('An account with this email already exists.');

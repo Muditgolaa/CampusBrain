@@ -15,7 +15,9 @@ export class UploadDocumentDto {
   @IsEnum(DocumentType)
   type?: DocumentType;
 
-  @ApiPropertyOptional({ description: 'Associate the document with a subject.' })
+  @ApiPropertyOptional({
+    description: 'Associate the document with a subject.',
+  })
   @IsOptional()
   @IsString()
   subjectId?: string;

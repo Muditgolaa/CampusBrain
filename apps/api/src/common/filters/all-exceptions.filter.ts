@@ -71,7 +71,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
         status,
         code: (obj.code as string) ?? this.codeFromStatus(status),
         message,
-        details: obj.errors ?? (Array.isArray(obj.message) ? obj.message : undefined),
+        details:
+          obj.errors ?? (Array.isArray(obj.message) ? obj.message : undefined),
       };
     }
 

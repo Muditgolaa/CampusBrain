@@ -50,7 +50,9 @@ export class CloudinaryStorageProvider implements StorageProvider {
     const url = cloudinary.url(key, { resource_type: 'auto', secure: true });
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${key} from Cloudinary (${response.status}).`);
+      throw new Error(
+        `Failed to fetch ${key} from Cloudinary (${response.status}).`,
+      );
     }
     return Buffer.from(await response.arrayBuffer());
   }

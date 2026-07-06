@@ -37,7 +37,9 @@ export class AiClient {
   }
 
   /** Returns the raw streaming Response (SSE) — caller pipes the body. */
-  async stream(options: Omit<RequestOptions, 'raw' | 'method'>): Promise<Response> {
+  async stream(
+    options: Omit<RequestOptions, 'raw' | 'method'>,
+  ): Promise<Response> {
     const response = await this.send({ ...options, method: 'POST', raw: true });
     if (!response.ok || !response.body) {
       throw await this.toError(response);
@@ -64,7 +66,11 @@ export class AiClient {
           signal: controller.signal,
         });
         // Retry transient 5xx; return everything else to the caller to map.
-        if (response.status >= 500 && attempt < maxAttempts && options.retryable) {
+        if (
+          response.status >= 500 &&
+          attempt < maxAttempts &&
+          options.retryable
+        ) {
           lastError = new Error(`AI service ${response.status}`);
           await this.backoff(attempt);
           continue;

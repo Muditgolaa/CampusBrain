@@ -62,7 +62,9 @@ export class StudyController {
   }
 
   @Get('flashcards')
-  @ApiOperation({ summary: 'List saved flashcards (optionally only due ones).' })
+  @ApiOperation({
+    summary: 'List saved flashcards (optionally only due ones).',
+  })
   listFlashcards(
     @CurrentUser() user: AuthenticatedUser,
     @Query('due') due?: string,

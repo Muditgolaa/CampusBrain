@@ -35,8 +35,16 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: () => this.log(requestId, method, url, response.statusCode, startedAt),
-        error: () => this.log(requestId, method, url, response.statusCode || 500, startedAt),
+        next: () =>
+          this.log(requestId, method, url, response.statusCode, startedAt),
+        error: () =>
+          this.log(
+            requestId,
+            method,
+            url,
+            response.statusCode || 500,
+            startedAt,
+          ),
       }),
     );
   }

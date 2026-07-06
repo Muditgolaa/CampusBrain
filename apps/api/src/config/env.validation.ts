@@ -67,7 +67,9 @@ export function validateEnv(config: Record<string, unknown>): Env {
   const parsed = envSchema.safeParse(config);
   if (!parsed.success) {
     const issues = parsed.error.issues
-      .map((issue) => `  - ${issue.path.join('.') || '(root)'}: ${issue.message}`)
+      .map(
+        (issue) => `  - ${issue.path.join('.') || '(root)'}: ${issue.message}`,
+      )
       .join('\n');
     throw new Error(`Invalid environment configuration:\n${issues}`);
   }

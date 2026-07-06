@@ -70,7 +70,9 @@ export class SseAccumulator {
         this.content += String(parsed.text ?? '');
         break;
       case 'citations':
-        this.citations = Array.isArray(parsed.citations) ? parsed.citations : [];
+        this.citations = Array.isArray(parsed.citations)
+          ? parsed.citations
+          : [];
         break;
       case 'usage':
         this.usage = parsed;

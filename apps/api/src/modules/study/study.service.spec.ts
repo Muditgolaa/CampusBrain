@@ -18,16 +18,19 @@ describe('StudyService', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: null,
+      ...over,
     }) as Flashcard;
 
   const build = (card: Flashcard) => {
     const captured: { data?: Record<string, unknown> } = {};
     const repo = {
       findFlashcard: jest.fn(async () => card),
-      updateFlashcard: jest.fn(async (_id: string, data: Record<string, unknown>) => {
-        captured.data = data;
-        return { ...card, ...data };
-      }),
+      updateFlashcard: jest.fn(
+        async (_id: string, data: Record<string, unknown>) => {
+          captured.data = data;
+          return { ...card, ...data };
+        },
+      ),
       createQuizAttempt: jest.fn(async () => ({})),
     } as unknown as StudyRepository;
     const service = new StudyService({} as AiService, repo);
@@ -35,7 +38,9 @@ describe('StudyService', () => {
   };
 
   it('grows the interval by the ease factor on a strong recall', async () => {
-    const { service, captured } = build(baseCard({ intervalDays: 6, reviewCount: 2 }));
+    const { service, captured } = build(
+      baseCard({ intervalDays: 6, reviewCount: 2 }),
+    );
     await service.reviewFlashcard('u1', 'c1', { quality: 5 });
     // interval = round(6 * 2.5) = 15; ease increases; reviewCount -> 3.
     expect(captured.data?.intervalDays).toBe(15);
@@ -44,7 +49,9 @@ describe('StudyService', () => {
   });
 
   it('resets the schedule on a failed recall', async () => {
-    const { service, captured } = build(baseCard({ intervalDays: 15, reviewCount: 4 }));
+    const { service, captured } = build(
+      baseCard({ intervalDays: 15, reviewCount: 4 }),
+    );
     await service.reviewFlashcard('u1', 'c1', { quality: 1 });
     expect(captured.data?.intervalDays).toBe(1);
     expect(captured.data?.reviewCount).toBe(0);
@@ -55,11 +62,7 @@ describe('StudyService', () => {
   it('scores a quiz by comparing selected vs correct indices', async () => {
     const { service } = build(baseCard());
     const result = await service.submitQuiz('u1', {
-      questions: [
-        { answerIndex: 0 },
-        { answerIndex: 2 },
-        { answerIndex: 1 },
-      ],
+      questions: [{ answerIndex: 0 }, { answerIndex: 2 }, { answerIndex: 1 }],
       answers: [
         { questionIndex: 0, selectedIndex: 0 }, // correct
         { questionIndex: 1, selectedIndex: 3 }, // wrong

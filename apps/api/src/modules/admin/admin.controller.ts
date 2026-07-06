@@ -58,7 +58,9 @@ export class AdminController {
   }
 
   @Patch('users/:id/role')
-  @ApiOperation({ summary: 'Change a user role (super admin for privilege grants).' })
+  @ApiOperation({
+    summary: 'Change a user role (super admin for privilege grants).',
+  })
   setRole(
     @CurrentUser() actor: AuthenticatedUser,
     @Param('id') id: string,

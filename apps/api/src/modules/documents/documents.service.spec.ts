@@ -28,12 +28,7 @@ describe('DocumentsService.upload', () => {
       get: (key: string) => (key === 'MAX_UPLOAD_MB' ? 25 : undefined),
     } as unknown as AppConfigService;
     const queue = { add: jest.fn(async () => undefined) };
-    const service = new DocumentsService(
-      repo,
-      config,
-      storage,
-      queue as never,
-    );
+    const service = new DocumentsService(repo, config, storage, queue as never);
     return { service, storage, queue };
   };
 

@@ -21,7 +21,11 @@ import type { AuthenticatedUser } from '../auth/auth.types';
 import type { PaginatedResponse } from '@/common/dto/api-response';
 import { AiService } from '../ai/ai.service';
 import { AnalyticsService } from '../analytics/analytics.service';
-import { ChatsService, type ChatSummary, type MessageView } from './chats.service';
+import {
+  ChatsService,
+  type ChatSummary,
+  type MessageView,
+} from './chats.service';
 import { SseAccumulator } from './sse-accumulator';
 import {
   CreateChatDto,

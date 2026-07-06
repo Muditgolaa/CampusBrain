@@ -46,28 +46,22 @@ export class AnalyticsRepository {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
 
-    const [
-      totalUsers,
-      documents,
-      chats,
-      messages,
-      usageAgg,
-      activeRows,
-    ] = await this.prisma.$transaction([
-      this.prisma.user.count({ where: { deletedAt: null } }),
-      this.prisma.document.count({ where: { deletedAt: null } }),
-      this.prisma.chat.count({ where: { deletedAt: null } }),
-      this.prisma.message.count(),
-      this.prisma.usageLog.aggregate({
-        _sum: { totalTokens: true, costUsd: true },
-        _avg: { latencyMs: true },
-      }),
-      this.prisma.usageLog.findMany({
-        where: { createdAt: { gte: startOfToday } },
-        distinct: ['userId'],
-        select: { userId: true },
-      }),
-    ]);
+    const [totalUsers, documents, chats, messages, usageAgg, activeRows] =
+      await this.prisma.$transaction([
+        this.prisma.user.count({ where: { deletedAt: null } }),
+        this.prisma.document.count({ where: { deletedAt: null } }),
+        this.prisma.chat.count({ where: { deletedAt: null } }),
+        this.prisma.message.count(),
+        this.prisma.usageLog.aggregate({
+          _sum: { totalTokens: true, costUsd: true },
+          _avg: { latencyMs: true },
+        }),
+        this.prisma.usageLog.findMany({
+          where: { createdAt: { gte: startOfToday } },
+          distinct: ['userId'],
+          select: { userId: true },
+        }),
+      ]);
 
     return {
       totalUsers,
@@ -82,7 +76,9 @@ export class AnalyticsRepository {
   }
 
   /** Messages per day for the last N days. */
-  async messagesPerDay(days: number): Promise<{ date: string; count: number }[]> {
+  async messagesPerDay(
+    days: number,
+  ): Promise<{ date: string; count: number }[]> {
     const rows = await this.prisma.$queryRaw<{ date: Date; count: bigint }[]>`
       SELECT date_trunc('day', "createdAt") AS date, COUNT(*)::int AS count
       FROM messages
