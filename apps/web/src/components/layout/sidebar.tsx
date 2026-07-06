@@ -41,9 +41,12 @@ export function Sidebar(): React.ReactElement {
 
   const chats = data?.data ?? [];
 
-  const handleNewChat = async () => {
-    const chat = await createChat.mutateAsync(undefined);
-    router.push(`/chat/${chat.id}`);
+  const handleNewChat = () => {
+    createChat.mutate(undefined, {
+      onSuccess: (chat) => {
+        router.push(`/chat/${chat.id}`);
+      },
+    });
   };
 
   return (
@@ -111,9 +114,12 @@ export function Sidebar(): React.ReactElement {
                 <button
                   aria-label="Delete chat"
                   className="hidden text-muted hover:text-red-400 group-hover:block"
-                  onClick={async () => {
-                    await deleteChat.mutateAsync(chat.id);
-                    if (active) router.push('/chat');
+                  onClick={() => {
+                    deleteChat.mutate(chat.id, {
+                      onSuccess: () => {
+                        if (active) router.push('/chat');
+                      },
+                    });
                   }}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
